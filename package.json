@@ -1,0 +1,67 @@
+{
+  "name": "@automann/maple-mono-cn",
+  "version": "7.9.0",
+  "description": "Unofficial, reproducible webfont packaging of Maple Mono CN Regular",
+  "license": "OFL-1.1",
+  "type": "module",
+  "files": [
+    "bin",
+    "dist",
+    "FONTLOG.md",
+    "LICENSE",
+    "README.md"
+  ],
+  "style": "./dist/regular.css",
+  "bin": {
+    "maple-mono-cn-copy": "./bin/copy.mjs"
+  },
+  "exports": {
+    ".": "./dist/regular.css",
+    "./regular.css": "./dist/regular.css",
+    "./og": "./dist/og/MapleMono-Regular.ttf",
+    "./og/MapleMono-Regular.ttf": "./dist/og/MapleMono-Regular.ttf",
+    "./package.json": "./package.json"
+  },
+  "sideEffects": [
+    "**/*.css"
+  ],
+  "scripts": {
+    "build": "node scripts/build.mjs",
+    "clean": "node scripts/clean.mjs",
+    "test": "node --test tests/*.test.mjs",
+    "check": "pnpm run test && npm pack --dry-run --ignore-scripts",
+    "prepack": "pnpm run test"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "packageManager": "pnpm@10.12.2",
+  "pnpm": {
+    "ignoredBuiltDependencies": [
+      "cn-font-split",
+      "koffi",
+      "protobufjs"
+    ]
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/automann/maple-mono-cn.git"
+  },
+  "bugs": {
+    "url": "https://github.com/automann/maple-mono-cn/issues"
+  },
+  "homepage": "https://github.com/automann/maple-mono-cn#readme",
+  "keywords": [
+    "font",
+    "webfont",
+    "chinese",
+    "cjk",
+    "unicode-range",
+    "maple-mono"
+  ],
+  "devDependencies": {
+    "cn-font-split": "7.4.3",
+    "extract-zip": "2.0.1",
+    "fontkit": "2.0.4"
+  }
+}

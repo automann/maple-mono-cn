@@ -51,6 +51,9 @@
     "url": "https://github.com/automann/maple-mono-cn/issues"
   },
   "homepage": "https://github.com/automann/maple-mono-cn#readme",
+  "publishConfig": {
+    "access": "public"
+  },
   "keywords": [
     "font",
     "webfont",

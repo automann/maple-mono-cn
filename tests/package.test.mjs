@@ -34,6 +34,7 @@ test("package metadata exposes the browser CSS and OG font", async () => {
   assert.equal(pkg.name, "@automann/maple-mono-cn");
   assert.equal(pkg.version, "7.9.0");
   assert.equal(pkg.license, "OFL-1.1");
+  assert.equal(pkg.publishConfig.access, "public");
   assert.equal(pkg.exports["."], "./dist/regular.css");
   assert.equal(pkg.exports["./og"], "./dist/og/MapleMono-Regular.ttf");
   assert.equal(pkg.bin["maple-mono-cn-copy"], "./bin/copy.mjs");

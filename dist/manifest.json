@@ -1,5 +1,5 @@
 {
-  "packageVersion": "7.9.1",
+  "packageVersion": "7.9.2",
   "upstream": {
     "project": "subframe7536/maple-font",
     "version": "7.9",
@@ -5862,5 +5862,17 @@
     "bytes": 265024,
     "sha256": "369583f0b555f33bdb6fdbcc2a6840a7a61a1d72c008a57a665baa36d7d5adf6",
     "cjkCoverage": false
+  },
+  "ogCn": {
+    "family": "Maple Mono CN",
+    "file": "og/MapleMono-CN-Regular.ttf",
+    "bytes": 18509264,
+    "sha256": "0fcc5139bfd5ab14ff989bb7dfd5236d0cafc10e60b9828569e6883613ab4085",
+    "cjkCoverage": true,
+    "coverage": {
+      "codepointSha256": "1c2f8eaab30649067337615e11ef9d23ffbefb6fd1e89de99c235105641d4e0d",
+      "sourceCodepoints": 22731,
+      "verified": true
+    }
   }
 }

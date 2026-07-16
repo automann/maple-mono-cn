@@ -39,7 +39,7 @@ function codepointDigest(codepoints) {
 test("package metadata exposes the browser CSS and OG font", async () => {
   const pkg = await json("package.json");
   assert.equal(pkg.name, "@automann/maple-mono-cn");
-  assert.equal(pkg.version, "7.9.1");
+  assert.equal(pkg.version, "7.9.2");
   assert.equal(pkg.license, "OFL-1.1");
   assert.equal(pkg.publishConfig.access, "public");
   assert.equal(pkg.exports["."], "./dist/regular.css");
@@ -48,6 +48,11 @@ test("package metadata exposes the browser CSS and OG font", async () => {
     assert.equal(pkg.exports[`./${font.weight}.css`], `./dist/${font.slug}.css`);
   }
   assert.equal(pkg.exports["./og"], "./dist/og/MapleMono-Regular.ttf");
+  assert.deepEqual(pkg.exports["./og-cn"], {
+    types: "./dist/og-cn.d.ts",
+    default: "./dist/og-cn.mjs",
+  });
+  assert.equal(pkg.exports["./og-cn-font"], "./dist/og/MapleMono-CN-Regular.ttf");
   assert.equal(pkg.bin["maple-mono-cn-copy"], "./bin/copy.mjs");
 });
 
@@ -77,7 +82,7 @@ test("each generated CSS entry references only its own WOFF2 weight", async () =
 
 test("manifest hashes and byte counts match all published artifacts", async () => {
   const manifest = await json("dist/manifest.json");
-  assert.equal(manifest.packageVersion, "7.9.1");
+  assert.equal(manifest.packageVersion, "7.9.2");
   assert.equal(manifest.upstream.version, "7.9");
   assert.deepEqual(manifest.webfont, manifest.webfonts[400]);
 
@@ -112,6 +117,28 @@ test("manifest hashes and byte counts match all published artifacts", async () =
   assert.equal((await stat(ogPath)).size, manifest.og.bytes);
   assert.equal(await sha256(ogPath), manifest.og.sha256);
   assert.equal(manifest.og.cjkCoverage, false);
+
+  const ogCnPath = new URL(manifest.ogCn.file, dist);
+  assert.equal((await stat(ogCnPath)).size, manifest.ogCn.bytes);
+  assert.equal(await sha256(ogCnPath), manifest.ogCn.sha256);
+  assert.equal(manifest.ogCn.cjkCoverage, true);
+  assert.equal(manifest.ogCn.coverage.verified, true);
+  assert.equal(
+    fontkit.openSync(fileURLToPath(ogCnPath)).characterSet.length,
+    manifest.ogCn.coverage.sourceCodepoints,
+  );
+});
+
+test("the Chinese OG loader returns and caches the complete Regular font", async () => {
+  const manifest = await json("dist/manifest.json");
+  const { loadMapleMonoCnRegular } = await import(new URL("og-cn.mjs", dist));
+  const first = await loadMapleMonoCnRegular();
+  const second = await loadMapleMonoCnRegular();
+
+  assert.ok(Buffer.isBuffer(first));
+  assert.equal(first, second);
+  assert.equal(first.length, manifest.ogCn.bytes);
+  assert.equal(createHash("sha256").update(first).digest("hex"), manifest.ogCn.sha256);
 });
 
 test("the OFL and upstream copyright accompany the distributed fonts", async () => {

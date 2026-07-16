@@ -1,6 +1,6 @@
 {
   "name": "@automann/maple-mono-cn",
-  "version": "7.9.1",
+  "version": "7.9.2",
   "description": "Unofficial, reproducible webfont packaging of Maple Mono CN",
   "license": "OFL-1.1",
   "type": "module",
@@ -28,6 +28,11 @@
     "./medium.css": "./dist/medium.css",
     "./500.css": "./dist/medium.css",
     "./og": "./dist/og/MapleMono-Regular.ttf",
+    "./og-cn": {
+      "types": "./dist/og-cn.d.ts",
+      "default": "./dist/og-cn.mjs"
+    },
+    "./og-cn-font": "./dist/og/MapleMono-CN-Regular.ttf",
     "./og/MapleMono-Regular.ttf": "./dist/og/MapleMono-Regular.ttf",
     "./package.json": "./package.json"
   },

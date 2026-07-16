@@ -18,6 +18,8 @@
   and WOFF2 entries.
 - Nerd Font glyphs are not included.
 - The official non-CN `MapleMono-Regular.ttf` is included unchanged for build-time OG rendering.
+- The official CN `MapleMono-CN-Regular.ttf` is included unchanged behind a Node-only cached loader
+  for build-time renderers that require complete Chinese glyph coverage.
 
 ## Reproducibility
 

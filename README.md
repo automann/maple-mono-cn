@@ -14,10 +14,11 @@ The package tracks Maple Mono 7.9 and contains five upright static weights:
 | Regular 400 | `@automann/maple-mono-cn/regular.css` |
 | Medium 500 | `@automann/maple-mono-cn/medium.css` |
 
-Each entry contains:
+The package contains:
 
 - complete Maple Mono CN character coverage, split into WOFF2 files selected by `unicode-range`;
 - one official non-CN `MapleMono-Regular.ttf` for build-time OG image renderers such as Satori;
+- one complete CN Regular font exposed through a cached Node loader for build-time OG rendering;
 - no Nerd Font glyphs;
 - no runtime CDN dependency.
 
@@ -52,8 +53,17 @@ For an OG image renderer:
 import MapleMono from "@automann/maple-mono-cn/og";
 ```
 
-The OG export currently contains the official non-CN Regular font. Chinese glyph coverage for OG
-images is intentionally out of scope until a separate build-time font strategy is selected.
+For complete Chinese glyph coverage, use the Node-only loader instead of importing the large TTF
+into a JavaScript build chunk:
+
+```ts
+import { loadMapleMonoCnRegular } from "@automann/maple-mono-cn/og-cn";
+
+const mapleMonoCn = await loadMapleMonoCnRegular();
+```
+
+The loader reads and caches the official CN Regular font on first use. It is intended for static
+builds and other Node.js renderers, not browser bundles.
 
 ## Giscus and other iframes
 

@@ -25,7 +25,7 @@ const upstreamCache = join(cache, "upstream", `v${UPSTREAM_VERSION}`);
 const buildDir = join(cache, "build");
 const distDir = join(root, "dist");
 const ogDir = join(distDir, "og");
-const packageVersion = "7.9.1";
+const packageVersion = "7.9.2";
 const splitCoreVersion = "7.6.8";
 const splitCore = {
   file: `cn-font-split-${splitCoreVersion}.wasm`,
@@ -291,7 +291,33 @@ async function collectArtifacts(cnSources, ogSource) {
 
   const ogTarget = join(ogDir, "MapleMono-Regular.ttf");
   await copyFile(ogSource, ogTarget);
+  const ogCnSource = cnSources.get(400);
+  if (!ogCnSource) throw new Error("Missing Maple Mono CN Regular source for OG rendering");
+  const ogCnTarget = join(ogDir, "MapleMono-CN-Regular.ttf");
+  await copyFile(ogCnSource, ogCnTarget);
+  await writeFile(
+    join(distDir, "og-cn.mjs"),
+    [
+      'import { createRequire } from "node:module";',
+      'import { readFile } from "node:fs/promises";',
+      "",
+      "const require = createRequire(import.meta.url);",
+      "let regularFont;",
+      "",
+      "export function loadMapleMonoCnRegular() {",
+      '  regularFont ??= readFile(require.resolve("@automann/maple-mono-cn/og-cn-font"));',
+      "  return regularFont;",
+      "}",
+      "",
+    ].join("\n"),
+  );
+  await writeFile(
+    join(distDir, "og-cn.d.ts"),
+    'export declare function loadMapleMonoCnRegular(): Promise<Buffer>;\n',
+  );
   await copyFile(join(root, "LICENSE"), join(distDir, "OFL.txt"));
+
+  const ogCnCodepoints = new Set(fontkit.openSync(ogCnSource).characterSet);
 
   const manifest = {
     packageVersion,
@@ -314,6 +340,18 @@ async function collectArtifacts(cnSources, ogSource) {
       bytes: (await stat(ogTarget)).size,
       sha256: await sha256(ogTarget),
       cjkCoverage: false,
+    },
+    ogCn: {
+      family: "Maple Mono CN",
+      file: "og/MapleMono-CN-Regular.ttf",
+      bytes: (await stat(ogCnTarget)).size,
+      sha256: await sha256(ogCnTarget),
+      cjkCoverage: true,
+      coverage: {
+        codepointSha256: codepointDigest(ogCnCodepoints),
+        sourceCodepoints: ogCnCodepoints.size,
+        verified: true,
+      },
     },
   };
 

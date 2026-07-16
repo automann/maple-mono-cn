@@ -4,7 +4,17 @@ Unofficial, reproducible webfont packaging of
 [Maple Mono CN](https://github.com/subframe7536/maple-font). This package is not affiliated with or
 endorsed by the Maple Mono project.
 
-The package tracks Maple Mono 7.9 and contains only Regular 400:
+The package tracks Maple Mono 7.9 and contains five upright static weights:
+
+| Weight | CSS entry |
+| --- | --- |
+| Thin 100 | `@automann/maple-mono-cn/thin.css` |
+| ExtraLight 200 | `@automann/maple-mono-cn/extra-light.css` |
+| Light 300 | `@automann/maple-mono-cn/light.css` |
+| Regular 400 | `@automann/maple-mono-cn/regular.css` |
+| Medium 500 | `@automann/maple-mono-cn/medium.css` |
+
+Each entry contains:
 
 - complete Maple Mono CN character coverage, split into WOFF2 files selected by `unicode-range`;
 - one official non-CN `MapleMono-Regular.ttf` for build-time OG image renderers such as Satori;
@@ -26,6 +36,12 @@ Import the browser font once from your global stylesheet:
   --font-mono: "Maple Mono CN", ui-monospace, monospace;
 }
 ```
+
+The package root also resolves to Regular 400. Numeric aliases (`100.css`, `200.css`, `300.css`,
+`400.css`, and `500.css`) are
+available for tooling that selects fonts by weight. Import only the weights the site uses: each CSS
+entry references a separate WOFF2 directory, so importing Regular does not bundle the other four
+weights.
 
 The browser downloads only the WOFF2 ranges needed by the text on the current page. Do not preload
 the complete font set.
@@ -49,7 +65,12 @@ pnpm exec maple-mono-cn-copy public/fonts/maple-mono-cn
 ```
 
 Then reference `/fonts/maple-mono-cn/regular.css` by URL from the iframe theme. The command copies
-only the browser CSS, WOFF2 files, and OFL text; relative font URLs remain self-hosted.
+only Regular 400, its WOFF2 files, and the OFL text by default; relative font URLs remain
+self-hosted. Select additional weights explicitly when needed:
+
+```sh
+pnpm exec maple-mono-cn-copy public/fonts/maple-mono-cn --weights 300,400,500
+```
 
 ## Rebuild
 
@@ -62,7 +83,7 @@ pnpm test
 ```
 
 The build downloads the two official Maple Mono 7.9 archives, verifies their pinned SHA-256 hashes,
-extracts only the required Regular fonts, and regenerates `dist/`. Downloads are cached under
+extracts the five required upright fonts, and regenerates `dist/`. Downloads are cached under
 `.cache/upstream/` and are not published.
 
 ## License

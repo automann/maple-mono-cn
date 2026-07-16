@@ -1,7 +1,7 @@
 {
   "name": "@automann/maple-mono-cn",
-  "version": "7.9.0",
-  "description": "Unofficial, reproducible webfont packaging of Maple Mono CN Regular",
+  "version": "7.9.1",
+  "description": "Unofficial, reproducible webfont packaging of Maple Mono CN",
   "license": "OFL-1.1",
   "type": "module",
   "files": [
@@ -17,7 +17,16 @@
   },
   "exports": {
     ".": "./dist/regular.css",
+    "./thin.css": "./dist/thin.css",
+    "./100.css": "./dist/thin.css",
+    "./extra-light.css": "./dist/extra-light.css",
+    "./200.css": "./dist/extra-light.css",
+    "./light.css": "./dist/light.css",
+    "./300.css": "./dist/light.css",
     "./regular.css": "./dist/regular.css",
+    "./400.css": "./dist/regular.css",
+    "./medium.css": "./dist/medium.css",
+    "./500.css": "./dist/medium.css",
     "./og": "./dist/og/MapleMono-Regular.ttf",
     "./og/MapleMono-Regular.ttf": "./dist/og/MapleMono-Regular.ttf",
     "./package.json": "./package.json"

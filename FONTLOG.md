@@ -9,11 +9,13 @@
 
 ## Modifications
 
-- `MapleMono-CN-Regular.ttf` from the official unhinted CN archive is split into WOFF2 files with
-  Unicode Range declarations for browser delivery.
+- `MapleMono-CN-Thin.ttf`, `MapleMono-CN-ExtraLight.ttf`, `MapleMono-CN-Light.ttf`,
+  `MapleMono-CN-Regular.ttf`, and `MapleMono-CN-Medium.ttf` from the official unhinted CN archive
+  are split into WOFF2 files with Unicode Range declarations for browser delivery.
 - The glyph inventory is distributed across the complete set of generated ranges rather than reduced
   to the characters of one website.
-- Only Regular 400 is included.
+- Thin 100, ExtraLight 200, Light 300, Regular 400, and Medium 500 are included as isolated CSS
+  and WOFF2 entries.
 - Nerd Font glyphs are not included.
 - The official non-CN `MapleMono-Regular.ttf` is included unchanged for build-time OG rendering.
 
